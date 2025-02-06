@@ -205,7 +205,7 @@ const Sidebar = () => {
             </button>
             {/* iFrame for Chatbot */}
             <iframe
-              src="http://localhost:3000" // Replace with your chatbot link
+              src="https://orbeai.vercel.app" // Replace with your chatbot link
               allow="microphone"
               className="w-full h-full rounded-lg border-none bg-white"
             ></iframe>
