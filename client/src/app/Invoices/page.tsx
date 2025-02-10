@@ -89,7 +89,7 @@ const Invoices = () => {
               </div>
 
               <div className="text-lg font-semibold text-gray-900 mt-4">
-                Total: ${invoice.totalAmount.toFixed(2)}
+                Total: ${parseFloat(invoice.totalAmount.toString()).toFixed(2)}
               </div>
             </div>
           </div>
