@@ -27,6 +27,7 @@ model Products {
   stockQuantity Int
   Sales         Sales[]
   Purchases     Purchases[]
+
 }
 
 model Sales {
@@ -84,4 +85,26 @@ model ExpenseByCategory {
   amount              BigInt
   date                DateTime
   expenseSummary      ExpenseSummary @relation(fields: [expenseSummaryId], references: [expenseSummaryId])
+}
+model Invoices {
+  invoiceId    String  @id
+  customerName String
+  date         String
+  totalAmount  Float
+  items        String
+}
+
+model Suppliers {
+  supplierId String @id
+  name   String
+  totalPayment Float
+  paymentDue  Float
+}
+
+model Orders {
+  orderId String @id
+  name   String
+  totalAmount Float
+  items String
+  status String
 }

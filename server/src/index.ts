@@ -10,7 +10,9 @@ import dashboardRoutes from "./routes/dashboardRoutes";
 import productRoutes from "./routes/productRoutes";
 import userRoutes from "./routes/userRoutes";
 import expenseRoutes from "./routes/expenseRoutes";
-
+import invoiceRoutes from "./routes/invoiceRoutes"; // Ensure this path is correct
+import supplierRoutes from "./routes/supplierRoutes"; // Ensure
+import orderRoutes from "./routes/orderRoutes"; // Ensure
 /* CONFIGURATIONS */
 dotenv.config();
 const app = express();
@@ -24,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /* CORS CONFIGURATION */
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://orbeai.vercel.app"], // Allow both frontends
+    origin: ["http://localhost:3000", "http://localhost:3001"], // Allow both frontends
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
   })
@@ -35,6 +37,9 @@ app.use("/dashboard", dashboardRoutes); // http://localhost:8000/dashboard
 app.use("/products", productRoutes); // http://localhost:8000/products
 app.use("/users", userRoutes); // http://localhost:8000/users
 app.use("/expenses", expenseRoutes); // http://localhost:8000/expenses
+app.use("/invoices", invoiceRoutes); // http://localhost:8000/invoices
+app.use("/suppliers", supplierRoutes); // http://localhost:8000/suppliers
+app.use("/orders", orderRoutes); // http://localhost:8000/suppliers
 
 /* SERVER */
 const port = Number(process.env.PORT) || 3001; // Make sure this is set to 8000

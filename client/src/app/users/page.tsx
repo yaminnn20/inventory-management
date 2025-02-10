@@ -19,13 +19,13 @@ const Users = () => {
 
   if (isError || !users) {
     return (
-      <div className="text-center text-red-500 py-4">Failed to fetch users</div>
+      <div className="text-center text-red-500 py-4">Failed to fetch customers</div>
     );
   }
 
   return (
     <div className="flex flex-col">
-      <Header name="Users" />
+      <Header name="Customers" />
       <DataGrid
         rows={users}
         columns={columns}

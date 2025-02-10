@@ -1,8 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useCreateProductMutation, useGetProductsQuery } from "@/state/api";
 import { PlusCircleIcon, SearchIcon } from "lucide-react";
-import { useState } from "react";
 import Header from "@/app/(components)/Header";
 import Rating from "@/app/(components)/Rating";
 import CreateProductModal from "./CreateProductModal";
@@ -23,12 +23,24 @@ const Products = () => {
     data: products,
     isLoading,
     isError,
+    refetch, // Add refetch here
   } = useGetProductsQuery(searchTerm);
 
   const [createProduct] = useCreateProductMutation();
+
   const handleCreateProduct = async (productData: ProductFormData) => {
     await createProduct(productData);
+    refetch(); // Refetch products after creating a new product
   };
+
+  // UseEffect to handle the periodic refetching of products
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      refetch(); // Regularly trigger refetch every 3 seconds
+    }, 4000);
+
+    return () => clearInterval(intervalId); // Cleanup interval on unmount
+  }, [refetch]);
 
   if (isLoading) {
     return <div className="py-4">Loading...</div>;

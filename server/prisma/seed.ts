@@ -1,9 +1,13 @@
 import { PrismaClient } from "@prisma/client";
 import fs from "fs";
 import path from "path";
+
 const prisma = new PrismaClient();
 
 async function deleteAllData(orderedFileNames: string[]) {
+  // Temporarily disable foreign key constraints
+  await prisma.$executeRawUnsafe("SET session_replication_role = 'replica';");
+
   const modelNames = orderedFileNames.map((fileName) => {
     const modelName = path.basename(fileName, path.extname(fileName));
     return modelName.charAt(0).toUpperCase() + modelName.slice(1);
@@ -20,12 +24,18 @@ async function deleteAllData(orderedFileNames: string[]) {
       );
     }
   }
+
+  // Re-enable foreign key constraints
+  await prisma.$executeRawUnsafe("SET session_replication_role = 'origin';");
 }
 
 async function main() {
   const dataDirectory = path.join(__dirname, "seedData");
 
   const orderedFileNames = [
+    "suppliers.json",
+    "invoices.json",
+    "orders.json",
     "products.json",
     "expenseSummary.json",
     "sales.json",
