@@ -42,10 +42,10 @@ const SidebarLink = ({ href, icon: Icon, label, isCollapsed }: SidebarLinkProps)
   return (
     <Link href={href}>
       <div
-        className={`cursor-pointer flex items-center ${isCollapsed ? "justify-center py-4" : "justify-start px-8 py-3.5"} hover:text-blue-500 hover:bg-blue-100 gap-3 transition-colors ${isActive ? "bg-blue-200 text-white" : ""}`}
+        className={`cursor-pointer flex items-center ${isCollapsed ? "justify-center py-3" : "px-4 py-3.5"} hover:text-blue-500 hover:bg-blue-100 gap-2 transition-colors ${isActive ? "bg-blue-200 text-white" : ""}`}
       >
-        <Icon className="w-6 h-6 !text-gray-700" />
-        <span className={`${isCollapsed ? "hidden" : "block"} font-medium text-gray-700`}>
+        <Icon className="w-5 h-5 !text-gray-700" />
+        <span className={`${isCollapsed ? "hidden" : "block"} text-sm font-medium text-gray-700`}>
           {label}
         </span>
       </div>
@@ -60,41 +60,27 @@ const Sidebar = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [iframeSrc, setIframeSrc] = useState<string>("");
 
-  const toggleSidebar = () => {
-    dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
-  };
-
+  const toggleSidebar = () => dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
   const toggleChat = () => {
     setIsChatVisible(!isChatVisible);
     if (!isChatOpen) {
-      setIframeSrc("http://localhost:3000"); // Set the iframe source only when the chat is opened
+      setIframeSrc("https://deepgrovee.vercel.app/");
       setIsChatOpen(true);
     }
   };
-
-  const closeChat = () => {
-    setIsChatVisible(false);
-    // Do not reset iframeSrc here to keep the iframe alive
-  };
-
-  const sidebarClassNames = `fixed flex flex-col ${isSidebarCollapsed ? "w-0 md:w-16" : "w-72 md:w-64"} bg-white transition-all duration-300 overflow-hidden h-full shadow-md z-40`;
+  const closeChat = () => setIsChatVisible(false);
 
   return (
-    <div className={sidebarClassNames}>
-      <div className={`flex gap-3 justify-between md:justify-normal items-center pt-8 ${isSidebarCollapsed ? "px-5" : "px-8"}`}>
-        <Image
-          src="https://s3-inventorymanagement.s3.us-east-2.amazonaws.com/logo.png"
-          alt="edstock-logo"
-          width={27}
-          height={27}
-          className="rounded w-8"
-        />
-        <h1 className={`${isSidebarCollapsed ? "hidden" : "block"} font-extrabold text-2xl`}>REORBE</h1>
-        <button className="md:hidden px-3 py-3 bg-gray-100 rounded-full hover:bg-blue-100" onClick={toggleSidebar}>
+    <div className={`fixed flex flex-col ${isSidebarCollapsed ? "w-14" : "w-60"} bg-white transition-all duration-200 overflow-hidden h-full shadow-md z-40`}>
+      <div className={`flex items-center pt-4 ${isSidebarCollapsed ? "px-3" : "px-4"}`}>
+        <Image src="https://s3-inventorymanagement.s3.us-east-2.amazonaws.com/logo.png" alt="edstock-logo" width={24} height={24} className="rounded" />
+        <h1 className={`${isSidebarCollapsed ? "hidden" : "block"} text-xl font-bold ml-2`}>REORBE</h1>
+        <button className="md:hidden p-2 bg-gray-100 rounded hover:bg-blue-100" onClick={toggleSidebar}>
           <Menu className="w-4 h-4" />
         </button>
       </div>
-      <div className="flex-grow mt-8">
+
+      <div className="flex-grow mt-6">
         <SidebarLink href="/dashboard" icon={Layout} label="Dashboard" isCollapsed={isSidebarCollapsed} />
         <SidebarLink href="/Invoices" icon={NotepadText} label="Invoices" isCollapsed={isSidebarCollapsed} />
         <SidebarLink href="/inventory" icon={Archive} label="Inventory" isCollapsed={isSidebarCollapsed} />
@@ -107,29 +93,27 @@ const Sidebar = () => {
         <SidebarLink href="/reports" icon={FileBarChartIcon} label="Reports" isCollapsed={isSidebarCollapsed} />
         <SidebarLink href="/settings" icon={SlidersHorizontal} label="Settings" isCollapsed={isSidebarCollapsed} />
       </div>
-      <div className="flex justify-center items-center mb-12 space-x-3 relative">
-        <button className="bg-blue-500 text-white p-3 rounded-full hover:bg-blue-600 transition duration-300 shadow-lg relative" onClick={toggleChat}>
-          <BotMessageSquare className="w-8 h-8" />
-          {isChatOpen && (
-            <span className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
-          )}
+
+      <div className="flex justify-center items-center mb-11">
+        <button className="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition duration-200 shadow-lg relative" onClick={toggleChat}>
+          <BotMessageSquare className="w-9 h-9" />
+          {isChatOpen && <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>}
         </button>
-        {!isSidebarCollapsed && <span className="text-gray-700 font-semibold text-lg">ORBE</span>}
+        {!isSidebarCollapsed && <span className="text-gray-700 font-medium text-sm ml-2">ORBE</span>}
       </div>
-      <div className={`fixed bottom-12 left-12 bg-white rounded-lg shadow-lg w-[800px] h-[600px] transition-all duration-300 ${isChatVisible ? "opacity-100 visible" : "opacity-0 invisible"}`}>
-        <button className="absolute top-1 right-2 text-gray-700 text-2xl" onClick={closeChat}>
+
+      <div className={`fixed bottom-12 left-12 bg-white rounded-lg shadow-lg w-[700px] h-[500px] transition-all duration-200 ${isChatVisible ? "opacity-100 visible" : "opacity-0 invisible"}`}>
+        <button className="absolute top-1 right-2 text-gray-700 text-lg" onClick={closeChat}>
           ✖
         </button>
-        {/* The iframe is always in the DOM, but its `src` is set only when the chat is opened */}
         <iframe
           src={iframeSrc}
           allow="microphone"
-          className={`w-full h-full rounded-lg border-none bg-white transition-opacity duration-300 ${isChatVisible ? "opacity-100" : "opacity-0"}`}
+          className={`w-full h-full rounded-lg border-none bg-white transition-opacity duration-200 ${isChatVisible ? "opacity-100" : "opacity-0"}`}
         ></iframe>
       </div>
-      <div className={`${isSidebarCollapsed ? "hidden" : "block"} mb-2`}>
-        <p className="text-center text-xs text-gray-500">&copy; 2025 REORBE</p>
-      </div>
+
+      <p className={`${isSidebarCollapsed ? "hidden" : "block"} text-center text-xs text-gray-500 mb-2`}>&copy; 2025 REORBE</p>
     </div>
   );
 };
