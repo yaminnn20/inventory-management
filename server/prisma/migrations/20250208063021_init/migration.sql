@@ -1,0 +1,7 @@
+-- AlterTable
+ALTER TABLE "Invoices" ALTER COLUMN "items" SET NOT NULL,
+ALTER COLUMN "items" SET DATA TYPE TEXT;
+
+-- AlterTable
+ALTER TABLE "Orders" ALTER COLUMN "items" SET NOT NULL,
+ALTER COLUMN "items" SET DATA TYPE TEXT;

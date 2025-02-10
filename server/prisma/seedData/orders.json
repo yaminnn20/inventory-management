@@ -1,0 +1,31 @@
+[
+    {
+        "orderId": "ORDER-20240729-001", 
+        "name": "John Doe",
+        "totalAmount": 75.25,
+        "items": "T-shirt (1 x $25), Socks (2 x $10), Cap (1 x $30.25)",
+        "status": "Pending"
+      },
+      {
+        "orderId": "ORDER-20240729-002", 
+        "name": "Jane Smith",
+        "totalAmount": 120.00,
+        "items": "Laptop Bag (1 x $50), Mouse (1 x $20), Keyboard (1 x $50)",
+        "status": "Processing"
+      },
+
+{
+  "orderId": "ORDER-20240730-003", 
+  "name": "Acme Corp",
+  "totalAmount": 250.50,
+  "items": "Office Chair (1 x $150), Desk Lamp (1 x $50), Stationery (1 x $50.50)",
+  "status": "Shipped"
+},
+{
+    "orderId": "ORDER-20240730-004", 
+    "name": "Beta Industries",
+    "totalAmount": 95.75,
+    "items": "Hard Drive (1 x $70), USB Hub (1 x $25.75)",
+    "status": "Delivered"
+  }
+]

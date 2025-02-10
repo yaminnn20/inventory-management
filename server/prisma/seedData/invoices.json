@@ -1,0 +1,31 @@
+[
+{
+    "invoiceId": "INV-20240726-001", 
+    "customerName": "Acme Corporation",
+    "date": "2024-07-26",
+    "totalAmount": 125.50,
+    "items": "Laptop (1 x $1000), Mouse (1 x $25.50)"
+  },
+  {
+    "invoiceId": "INV-20240726-002", 
+    "customerName": "Beta Industries",
+    "date": "2024-07-26",
+    "totalAmount": 75.00,
+    "items": "Office Chair (1 x $75)"
+  },
+  {
+    "invoiceId": "INV-20240727-003", 
+    "customerName": "Gamma Solutions",
+    "date": "2024-07-27",
+    "totalAmount": 250.00,
+    "items": "Steel sheets (1 x $200), Bolts (1 x $50)"
+  },
+  {
+    "invoiceId": "INV-20240727-004", 
+    "customerName": "Delta Retail",
+    "date": "2024-07-27",
+    "totalAmount": 90.25,
+    "items": "Keyboard (1 x $45), Mousepad (1 x $10.25), USB Drive (1 x $35)"
+  }
+]
+  

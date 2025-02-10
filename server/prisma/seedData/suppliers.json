@@ -1,0 +1,26 @@
+[
+    {
+        "supplierId": "SUP-20240731-001", 
+        "name": "ABC Manufacturing",
+        "totalPayment": 15000.00,
+        "paymentDue": 5000.00
+      },
+      {
+        "supplierId": "SUP-20240731-002",
+        "name": "XYZ Distributors",
+        "totalPayment": 22000.50,
+        "paymentDue": 0.00
+      },
+      {
+        "supplierId": "SUP-20240801-003", 
+        "name": "PQR Logistics",
+        "totalPayment": 8500.75,
+        "paymentDue": 8500.75
+      },
+      {
+        "supplierId": "SUP-20240801-004", 
+        "name": "LMN Supplies",
+        "totalPayment": 11000.00,
+        "paymentDue": 2500.00
+      }
+    ]
