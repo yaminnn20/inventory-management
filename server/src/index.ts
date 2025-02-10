@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 /* CORS CONFIGURATION */
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"], // Allow both frontends
+    origin: ["http://localhost:3000", "https://deepgrovee.vercel.app"], // Allow both frontends
     methods: "GET,POST,PUT,DELETE",
     allowedHeaders: "Content-Type,Authorization",
   })

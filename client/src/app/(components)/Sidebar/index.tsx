@@ -64,7 +64,7 @@ const Sidebar = () => {
   const toggleChat = () => {
     setIsChatVisible(!isChatVisible);
     if (!isChatOpen) {
-      setIframeSrc("https://deepgrovee.vercel.app/");
+      setIframeSrc("https://deepgrovee.vercel.app");
       setIsChatOpen(true);
     }
   };
