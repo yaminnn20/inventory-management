@@ -73,10 +73,10 @@ const Sidebar = () => {
   return (
     <div className={`fixed flex flex-col ${isSidebarCollapsed ? "w-14" : "w-60"} bg-white transition-all duration-200 overflow-hidden h-full shadow-md z-40`}>
       <div className={`flex items-center pt-4 ${isSidebarCollapsed ? "px-3" : "px-4"}`}>
-        <Image src="https://s3-inventorymanagement.s3.us-east-2.amazonaws.com/logo.png" alt="edstock-logo" width={24} height={24} className="rounded" />
-        <h1 className={`${isSidebarCollapsed ? "hidden" : "block"} text-xl font-bold ml-2`}>REORBE</h1>
+        <Image src="https://r1-inventorymanagement.s3.us-east-1.amazonaws.com/logo.png" alt="logo" width={18} height={30} className="square" />
+        <h1 className={`${isSidebarCollapsed ? "hidden" : "block"} text-xl font-bold`}>EORBE</h1>
         <button className="md:hidden p-2 bg-gray-100 rounded hover:bg-blue-100" onClick={toggleSidebar}>
-          <Menu className="w-4 h-4" />
+          <Menu className="w-5 h-5" />
         </button>
       </div>
 
