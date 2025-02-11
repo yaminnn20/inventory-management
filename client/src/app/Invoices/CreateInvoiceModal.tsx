@@ -1,26 +1,26 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { v4 } from "uuid";
+import { v4 } from "uuid"; // Ensure you're importing UUID for invoiceId
 import Header from "@/app/(components)/Header";
 
-interface OrderFormData {
-  name: string;
+interface InvoiceFormData {
+  invoiceId: string;
+  customerName: string;
   totalAmount: number;
   items: string;
-  status: string;
 }
 
-interface CreateOrderModalProps {
+interface CreateInvoiceModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreate: (formData: OrderFormData) => void;
+  onCreate: (formData: InvoiceFormData) => void;
 }
 
-const CreateOrderModal = ({ isOpen, onClose, onCreate }: CreateOrderModalProps) => {
-  const [formData, setFormData] = useState<OrderFormData>({
-    name: "",
+const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalProps) => {
+  const [formData, setFormData] = useState<InvoiceFormData>({
+    invoiceId: v4(), // Generating a unique ID for the invoice
+    customerName: "",
     totalAmount: 0,
     items: "",
-    status: "Pending",
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -34,24 +34,24 @@ const CreateOrderModal = ({ isOpen, onClose, onCreate }: CreateOrderModalProps) 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Data validation before creating the order (important!)
-    if (!formData.name.trim()) {
+    // Validation
+    if (!formData.customerName.trim()) {
       alert("Customer name is required.");
       return;
     }
 
     if (isNaN(formData.totalAmount) || formData.totalAmount <= 0) {
-      alert("Total amount must be a number greater than zero.");
+      alert("Total amount must be greater than zero.");
       return;
     }
 
     if (!formData.items.trim()) {
-        alert("Items are required.")
-        return;
+      alert("Items are required.");
+      return;
     }
 
-    onCreate(formData); // Now formData is guaranteed to have the correct types.
-    onClose();
+    onCreate(formData); // Pass the formData to the parent component
+    onClose(); // Close modal after submission
   };
 
   if (!isOpen) return null;
@@ -59,21 +59,21 @@ const CreateOrderModal = ({ isOpen, onClose, onCreate }: CreateOrderModalProps) 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-20">
       <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-        <Header name="Create New Order" />
+        <Header name="Create New Invoice" />
         <form onSubmit={handleSubmit} className="mt-5">
-          {/* NAME */}
-          <label className="block text-sm font-medium text-gray-700">Name</label>
+          {/* Customer Name */}
+          <label className="block text-sm font-medium text-gray-700">Customer Name</label>
           <input
             type="text"
-            name="name"
+            name="customerName"
             placeholder="Customer Name"
             onChange={handleChange}
-            value={formData.name}
+            value={formData.customerName}
             className="block w-full mb-2 p-2 border-gray-500 border-2 rounded-md"
             required
           />
 
-          {/* TOTAL AMOUNT */}
+          {/* Total Amount */}
           <label className="block text-sm font-medium text-gray-700">Total Amount</label>
           <input
             type="number"
@@ -85,7 +85,7 @@ const CreateOrderModal = ({ isOpen, onClose, onCreate }: CreateOrderModalProps) 
             required
           />
 
-          {/* ITEMS */}
+          {/* Items */}
           <label className="block text-sm font-medium text-gray-700">Items</label>
           <textarea
             name="items"
@@ -96,21 +96,9 @@ const CreateOrderModal = ({ isOpen, onClose, onCreate }: CreateOrderModalProps) 
             required
           />
 
-          {/* STATUS */}
-          <label className="block text-sm font-medium text-gray-700">Status</label>
-          <input
-            type="text"
-            name="status"
-            placeholder="Status (e.g., Pending, Shipped, Delivered)"
-            onChange={handleChange}
-            value={formData.status}
-            className="block w-full mb-2 p-2 border-gray-500 border-2 rounded-md"
-            required
-          />
-
-          {/* ACTION BUTTONS */}
+          {/* Action Buttons */}
           <button type="submit" className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
-            Create
+            Create Invoice
           </button>
           <button
             onClick={onClose}
@@ -125,4 +113,4 @@ const CreateOrderModal = ({ isOpen, onClose, onCreate }: CreateOrderModalProps) 
   );
 };
 
-export default CreateOrderModal;
+export default CreateInvoiceModal;
