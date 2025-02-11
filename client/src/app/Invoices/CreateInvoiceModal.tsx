@@ -19,29 +19,30 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalPro
   const [formData, setFormData] = useState({
     invoiceId: v4(),
     customerName: "",
-    date: new Date().toISOString().split("T")[0],  // Default date in ISO format (YYYY-MM-DD)
+    date: new Date().toISOString().split("T")[0],  // Default date in YYYY-MM-DD format
     totalAmount: 0,
     items: "",
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: name === "totalAmount" ? parseFloat(value) || 0 : value,
-    });
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "totalAmount" ? (value === "" ? 0 : parseFloat(value)) : value,
+    }));
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Ensure the date is in ISO-8601 format for submission
     const updatedFormData = {
       ...formData,
-      date: new Date(formData.date).toISOString(),  // Convert to ISO string
+      date: new Date(formData.date).toISOString(), // Ensure ISO format
     };
 
-    onCreate(updatedFormData);  // Pass the updated form data
+    console.log("Submitting invoice form data:", updatedFormData); // Debugging log
+    onCreate(updatedFormData);
     onClose();
   };
 
@@ -82,7 +83,7 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalPro
             name="totalAmount"
             placeholder="Total Amount"
             onChange={handleChange}
-            value={formData.totalAmount}
+            value={formData.totalAmount.toString()}  // Ensures it is a string
             className="block w-full mb-2 p-2 border-gray-500 border-2 rounded-md"
             required
           />

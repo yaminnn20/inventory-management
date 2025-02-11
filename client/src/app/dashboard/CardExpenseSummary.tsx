@@ -57,7 +57,7 @@ const CardExpenseSummary = () => {
             <hr />
           </div>
           {/* BODY */}
-          <div className="xl:flex justify-between pr-7">
+          <div className="xl:flex justify-between pr-5">
             {/* CHART */}
             <div className="relative basis-3/5">
               <ResponsiveContainer width="100%" height={140}>
@@ -107,7 +107,7 @@ const CardExpenseSummary = () => {
           <div>
             <hr />
             {expenseSummary && (
-              <div className="mt-3 flex justify-between items-center px-7 mb-4">
+              <div className="mt-0 flex justify-between items-center px-7 mb-4">
                 <div className="pt-2">
                   <p className="text-sm">
                     Average:{" "}

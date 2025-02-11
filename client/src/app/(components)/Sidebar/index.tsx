@@ -44,7 +44,7 @@ const SidebarLink = ({ href, icon: Icon, label, isCollapsed }: SidebarLinkProps)
       <div
         className={`cursor-pointer flex items-center ${isCollapsed ? "justify-center py-3" : "px-4 py-3.5"} hover:text-blue-500 hover:bg-blue-100 gap-2 transition-colors ${isActive ? "bg-blue-200 text-white" : ""}`}
       >
-        <Icon className="w-5 h-5 !text-gray-700" />
+        <Icon className="w-4 h-4 !text-gray-700" />
         <span className={`${isCollapsed ? "hidden" : "block"} text-sm font-medium text-gray-700`}>
           {label}
         </span>
@@ -80,7 +80,7 @@ const Sidebar = () => {
         </button>
       </div>
 
-      <div className="flex-grow mt-6">
+      <div className="flex-grow mt-5">
         <SidebarLink href="/dashboard" icon={Layout} label="Dashboard" isCollapsed={isSidebarCollapsed} />
         <SidebarLink href="/Invoices" icon={NotepadText} label="Invoices" isCollapsed={isSidebarCollapsed} />
         <SidebarLink href="/inventory" icon={Archive} label="Inventory" isCollapsed={isSidebarCollapsed} />
