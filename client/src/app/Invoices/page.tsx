@@ -10,13 +10,7 @@ const Invoices = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const {
-    data: invoices,
-    isLoading,
-    isError,
-    refetch, // Add refetch here
-  } = useGetInvoicesQuery(searchTerm);
-
+  const { data: invoices, isLoading, isError, refetch } = useGetInvoicesQuery();
   const [createInvoice] = useCreateInvoiceMutation();
 
   const handleCreateInvoice = async (invoiceData: any) => {
@@ -24,26 +18,25 @@ const Invoices = () => {
     refetch(); // Refetch invoices after creating a new one
   };
 
-  // UseEffect to handle the periodic refetching of invoices
   useEffect(() => {
     const intervalId = setInterval(() => {
-      refetch(); // Regularly trigger refetch every 3 seconds
+      refetch();
     }, 4000);
-
-    return () => clearInterval(intervalId); // Cleanup interval on unmount
+    return () => clearInterval(intervalId);
   }, [refetch]);
 
-  if (isLoading) {
-    return <div className="py-4">Loading...</div>;
-  }
-
-  if (isError || !invoices) {
+  if (isLoading) return <div className="py-4">Loading...</div>;
+  if (isError || !invoices)
     return (
       <div className="text-center text-red-500 py-4">
         Failed to fetch invoices
       </div>
     );
-  }
+
+  // **Filtering invoices by search term**
+  const filteredInvoices = invoices?.filter((invoice) =>
+    invoice.customerName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="mx-auto pb-5 w-full">
@@ -73,7 +66,7 @@ const Invoices = () => {
 
       {/* BODY INVOICE LIST */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-between">
-        {invoices.map((invoice) => (
+        {(filteredInvoices || []).map((invoice) => (
           <div
             key={invoice.invoiceId}
             className="border shadow-lg rounded-lg p-6 max-w-full w-full mx-auto hover:shadow-xl transition duration-300 ease-in-out"
@@ -89,7 +82,7 @@ const Invoices = () => {
               </div>
 
               <div className="text-lg font-semibold text-gray-900 mt-4">
-                Total: ${parseFloat(invoice.totalAmount.toString()).toFixed(2)}
+                Total: ${parseFloat(invoice.totalAmount?.toString() || "0").toFixed(2)}
               </div>
             </div>
           </div>

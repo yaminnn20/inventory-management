@@ -16,11 +16,10 @@ interface CreateInvoiceModalProps {
 }
 
 const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalProps) => {
-  const [formData, setFormData] = useState({
-    invoiceId: v4(),
+  const [formData, setFormData] = useState<InvoiceFormData>({
     customerName: "",
-    date: new Date().toISOString().split("T")[0],  // Default date in YYYY-MM-DD format
-    totalAmount: 0,
+    date: new Date().toISOString().split("T")[0], // Default date in YYYY-MM-DD format
+    totalAmount: 0, // Ensuring totalAmount is always a number
     items: "",
   });
 
@@ -29,7 +28,7 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalPro
 
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "totalAmount" ? (value === "" ? 0 : parseFloat(value)) : value,
+      [name]: name === "totalAmount" ? (value.trim() === "" ? 0 : parseFloat(value)) : value,
     }));
   };
 
@@ -39,6 +38,7 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalPro
     const updatedFormData = {
       ...formData,
       date: new Date(formData.date).toISOString(), // Ensure ISO format
+      totalAmount: Number.isNaN(formData.totalAmount) ? 0 : formData.totalAmount, // Fix for NaN values
     };
 
     console.log("Submitting invoice form data:", updatedFormData); // Debugging log
@@ -83,7 +83,7 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalPro
             name="totalAmount"
             placeholder="Total Amount"
             onChange={handleChange}
-            value={formData.totalAmount.toString()}  // Ensures it is a string
+            value={formData.totalAmount.toString()} // Ensuring it's always a string for input
             className="block w-full mb-2 p-2 border-gray-500 border-2 rounded-md"
             required
           />
