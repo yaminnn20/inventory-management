@@ -2,47 +2,55 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import { v4 } from "uuid";
 import Header from "@/app/(components)/Header";
 
-interface InvoiceFormData {
-  customerName: string;
-  date: string;
+interface OrderFormData {
+  name: string;
   totalAmount: number;
   items: string;
+  status: string;
 }
 
-interface CreateInvoiceModalProps {
+interface CreateOrderModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCreate: (formData: InvoiceFormData) => void;
+  onCreate: (formData: OrderFormData) => void;
 }
 
-const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalProps) => {
-  const [formData, setFormData] = useState<InvoiceFormData>({
-    customerName: "",
-    date: new Date().toISOString().split("T")[0], // Default date in YYYY-MM-DD format
-    totalAmount: 0, // Ensuring totalAmount is always a number
+const CreateOrderModal = ({ isOpen, onClose, onCreate }: CreateOrderModalProps) => {
+  const [formData, setFormData] = useState<OrderFormData>({
+    name: "",
+    totalAmount: 0,
     items: "",
+    status: "Pending",
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: name === "totalAmount" ? (value.trim() === "" ? 0 : parseFloat(value)) : value,
-    }));
+    setFormData({
+      ...formData,
+      [name]: name === "totalAmount" ? Number(value) : value,
+    });
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const updatedFormData = {
-      ...formData,
-      date: new Date(formData.date).toISOString(), // Ensure ISO format
-      totalAmount: Number.isNaN(formData.totalAmount) ? 0 : formData.totalAmount, // Fix for NaN values
-    };
+    // Data validation before creating the order (important!)
+    if (!formData.name.trim()) {
+      alert("Customer name is required.");
+      return;
+    }
 
-    console.log("Submitting invoice form data:", updatedFormData); // Debugging log
-    onCreate(updatedFormData);
+    if (isNaN(formData.totalAmount) || formData.totalAmount <= 0) {
+      alert("Total amount must be a number greater than zero.");
+      return;
+    }
+
+    if (!formData.items.trim()) {
+        alert("Items are required.")
+        return;
+    }
+
+    onCreate(formData); // Now formData is guaranteed to have the correct types.
     onClose();
   };
 
@@ -51,27 +59,16 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalPro
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-20">
       <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-        <Header name="Create New Invoice" />
+        <Header name="Create New Order" />
         <form onSubmit={handleSubmit} className="mt-5">
-          {/* CUSTOMER NAME */}
-          <label className="block text-sm font-medium text-gray-700">Customer Name</label>
+          {/* NAME */}
+          <label className="block text-sm font-medium text-gray-700">Name</label>
           <input
             type="text"
-            name="customerName"
+            name="name"
             placeholder="Customer Name"
             onChange={handleChange}
-            value={formData.customerName}
-            className="block w-full mb-2 p-2 border-gray-500 border-2 rounded-md"
-            required
-          />
-
-          {/* DATE */}
-          <label className="block text-sm font-medium text-gray-700">Date</label>
-          <input
-            type="date"
-            name="date"
-            onChange={handleChange}
-            value={formData.date}
+            value={formData.name}
             className="block w-full mb-2 p-2 border-gray-500 border-2 rounded-md"
             required
           />
@@ -83,7 +80,7 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalPro
             name="totalAmount"
             placeholder="Total Amount"
             onChange={handleChange}
-            value={formData.totalAmount.toString()} // Ensuring it's always a string for input
+            value={formData.totalAmount}
             className="block w-full mb-2 p-2 border-gray-500 border-2 rounded-md"
             required
           />
@@ -95,6 +92,18 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalPro
             placeholder="List items (comma-separated)"
             onChange={handleChange}
             value={formData.items}
+            className="block w-full mb-2 p-2 border-gray-500 border-2 rounded-md"
+            required
+          />
+
+          {/* STATUS */}
+          <label className="block text-sm font-medium text-gray-700">Status</label>
+          <input
+            type="text"
+            name="status"
+            placeholder="Status (e.g., Pending, Shipped, Delivered)"
+            onChange={handleChange}
+            value={formData.status}
             className="block w-full mb-2 p-2 border-gray-500 border-2 rounded-md"
             required
           />
@@ -116,4 +125,4 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalPro
   );
 };
 
-export default CreateInvoiceModal;
+export default CreateOrderModal;
