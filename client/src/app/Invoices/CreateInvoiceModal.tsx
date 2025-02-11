@@ -1,10 +1,10 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { v4 } from "uuid"; // Ensure you're importing UUID for invoiceId
+import { v4 } from "uuid";
 import Header from "@/app/(components)/Header";
 
 interface InvoiceFormData {
-  invoiceId: string;
   customerName: string;
+  date: string;
   totalAmount: number;
   items: string;
 }
@@ -16,9 +16,10 @@ interface CreateInvoiceModalProps {
 }
 
 const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalProps) => {
-  const [formData, setFormData] = useState<InvoiceFormData>({
-    invoiceId: v4(), // Generating a unique ID for the invoice
+  const [formData, setFormData] = useState({
+    invoiceId: v4(),
     customerName: "",
+    date: new Date().toISOString().split("T")[0],  // Default date in ISO format (YYYY-MM-DD)
     totalAmount: 0,
     items: "",
   });
@@ -27,31 +28,21 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalPro
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: name === "totalAmount" ? Number(value) : value,
+      [name]: name === "totalAmount" ? parseFloat(value) || 0 : value,
     });
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Validation
-    if (!formData.customerName.trim()) {
-      alert("Customer name is required.");
-      return;
-    }
+    // Ensure the date is in ISO-8601 format for submission
+    const updatedFormData = {
+      ...formData,
+      date: new Date(formData.date).toISOString(),  // Convert to ISO string
+    };
 
-    if (isNaN(formData.totalAmount) || formData.totalAmount <= 0) {
-      alert("Total amount must be greater than zero.");
-      return;
-    }
-
-    if (!formData.items.trim()) {
-      alert("Items are required.");
-      return;
-    }
-
-    onCreate(formData); // Pass the formData to the parent component
-    onClose(); // Close modal after submission
+    onCreate(updatedFormData);  // Pass the updated form data
+    onClose();
   };
 
   if (!isOpen) return null;
@@ -61,7 +52,7 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalPro
       <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
         <Header name="Create New Invoice" />
         <form onSubmit={handleSubmit} className="mt-5">
-          {/* Customer Name */}
+          {/* CUSTOMER NAME */}
           <label className="block text-sm font-medium text-gray-700">Customer Name</label>
           <input
             type="text"
@@ -73,7 +64,18 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalPro
             required
           />
 
-          {/* Total Amount */}
+          {/* DATE */}
+          <label className="block text-sm font-medium text-gray-700">Date</label>
+          <input
+            type="date"
+            name="date"
+            onChange={handleChange}
+            value={formData.date}
+            className="block w-full mb-2 p-2 border-gray-500 border-2 rounded-md"
+            required
+          />
+
+          {/* TOTAL AMOUNT */}
           <label className="block text-sm font-medium text-gray-700">Total Amount</label>
           <input
             type="number"
@@ -85,7 +87,7 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalPro
             required
           />
 
-          {/* Items */}
+          {/* ITEMS */}
           <label className="block text-sm font-medium text-gray-700">Items</label>
           <textarea
             name="items"
@@ -96,9 +98,9 @@ const CreateInvoiceModal = ({ isOpen, onClose, onCreate }: CreateInvoiceModalPro
             required
           />
 
-          {/* Action Buttons */}
+          {/* ACTION BUTTONS */}
           <button type="submit" className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">
-            Create Invoice
+            Create
           </button>
           <button
             onClick={onClose}

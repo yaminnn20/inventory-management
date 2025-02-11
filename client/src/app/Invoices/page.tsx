@@ -10,74 +10,70 @@ const Invoices = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data: invoices, isLoading, isError, refetch } = useGetInvoicesQuery();
+  const {
+    data: invoices,
+    isLoading,
+    isError,
+    refetch, // Add refetch here
+  } = useGetInvoicesQuery(searchTerm);
+
   const [createInvoice] = useCreateInvoiceMutation();
 
   const handleCreateInvoice = async (invoiceData: any) => {
-    try {
-      await createInvoice(invoiceData).unwrap();
-      refetch();
-      setIsModalOpen(false); // Close modal after creation
-    } catch (error) {
-      console.error("Error creating invoice:", error);
-      alert("Failed to create invoice. Please try again.");
-    }
+    await createInvoice(invoiceData);
+    refetch(); // Refetch invoices after creating a new one
   };
 
+  // UseEffect to handle the periodic refetching of invoices
   useEffect(() => {
     const intervalId = setInterval(() => {
-      refetch();
+      refetch(); // Regularly trigger refetch every 3 seconds
     }, 4000);
-    return () => clearInterval(intervalId);
+
+    return () => clearInterval(intervalId); // Cleanup interval on unmount
   }, [refetch]);
 
-  if (isLoading) return <div className="py-4">Loading...</div>;
+  if (isLoading) {
+    return <div className="py-4">Loading...</div>;
+  }
 
-  if (isError) {
+  if (isError || !invoices) {
     return (
       <div className="text-center text-red-500 py-4">
-        Failed to fetch invoices. Please check your network connection or try again later.
+        Failed to fetch invoices
       </div>
     );
   }
 
-  if (!invoices) {
-    return <div className="text-center py-4">No invoices found.</div>;
-  }
-
-  const filteredInvoices = invoices.filter((invoice) => {
-    const customerName = invoice?.customerName?.toLowerCase();
-    return customerName?.includes(searchTerm.toLowerCase()) ?? false;
-  });
-
   return (
     <div className="mx-auto pb-5 w-full">
-      <div className="flex justify-between items-center py-4">
+      {/* SEARCH BAR */}
+      <div className="mb-6">
+        <div className="flex items-center border-2 border-gray-200 rounded">
+          <SearchIcon className="w-5 h-5 text-gray-500 m-2" />
+          <input
+            className="w-full py-2 px-4 rounded bg-white"
+            placeholder="Search invoices..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+      </div>
+
+      {/* HEADER BAR */}
+      <div className="flex justify-between items-center mb-6">
         <Header name="Invoices" />
         <button
+          className="flex items-center bg-blue-500 hover:bg-blue-700 text-gray-200 font-bold py-2 px-4 rounded"
           onClick={() => setIsModalOpen(true)}
-          className="flex items-center text-white bg-blue-500 hover:bg-blue-700 p-2 rounded-md"
         >
-          <PlusCircleIcon className="mr-2" />
-          Create Invoice
+          <PlusCircleIcon className="w-5 h-5 mr-2 !text-gray-200" /> Create Invoice
         </button>
       </div>
 
-      {/* Search Bar */}
-      <div className="mb-4 flex items-center border-b-2 border-gray-300">
-        <SearchIcon className="mr-2 text-gray-600" />
-        <input
-          type="text"
-          placeholder="Search by Customer Name"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full p-2 outline-none"
-        />
-      </div>
-
-      {/* Invoice List */}
+      {/* BODY INVOICE LIST */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-between">
-        {filteredInvoices.map((invoice) => (
+        {invoices.map((invoice) => (
           <div
             key={invoice.invoiceId}
             className="border shadow-lg rounded-lg p-6 max-w-full w-full mx-auto hover:shadow-xl transition duration-300 ease-in-out"
@@ -93,14 +89,14 @@ const Invoices = () => {
               </div>
 
               <div className="text-lg font-semibold text-gray-900 mt-4">
-                Total: ${Number(invoice.totalAmount ?? 0).toFixed(2)}
+                Total: ${parseFloat(invoice.totalAmount.toString()).toFixed(2)}
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Modal for creating invoice */}
+      {/* MODAL */}
       <CreateInvoiceModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
