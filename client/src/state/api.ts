@@ -97,12 +97,18 @@ export interface Supplier {
   name: string;
   totalPayment: number;
   paymentDue: number;
+  phone?: string;
+  email?: string;
+  address?: string;
 }
 
 export interface NewSupplier {
   name: string;
   totalPayment: number;
   paymentDue: number;
+  phone?: string;
+  email?: string;
+  address?: string;
 }
 
 export const api = createApi({

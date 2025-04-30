@@ -31,7 +31,7 @@ const SurveyDialog = () => {
             Enjoying Our Website?
           </h2>
           <p className="text-gray-600 mb-6">
-            We'd love to hear your feedback! Please take a moment to complete our
+            We&apos;d love to hear your feedback! Please take a moment to complete our
             quick survey and help us improve your experience.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

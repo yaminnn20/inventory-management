@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { PlusCircleIcon, SearchIcon, Building2, Phone, Mail, MapPin, CreditCard, AlertCircle, PlusCircle, Upload, Download, Settings, Filter, Search } from "lucide-react";
-import { useGetSuppliersQuery, useCreateSupplierMutation } from "@/state/api";
+import { useGetSuppliersQuery, useCreateSupplierMutation, Supplier, NewSupplier } from "@/state/api";
 import Header from "@/app/(components)/Header";
 import CreateSupplierModal from "./CreateSupplierModal";
 
@@ -21,7 +21,7 @@ const Suppliers = () => {
 
     const [createSupplier] = useCreateSupplierMutation();
 
-    const handleCreateSupplier = async (supplierData: any) => {
+    const handleCreateSupplier = async (supplierData: NewSupplier) => {
         try {
             const result = await createSupplier(supplierData).unwrap();
             console.log("Supplier created:", result);
@@ -33,7 +33,10 @@ const Suppliers = () => {
     };
 
     const filteredSuppliers = suppliers?.filter((supplier) => {
-        const matchesSearch = supplier.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesSearch = supplier.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (supplier.phone?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+            (supplier.email?.toLowerCase().includes(searchTerm.toLowerCase()) || false) ||
+            (supplier.address?.toLowerCase().includes(searchTerm.toLowerCase()) || false);
         const matchesPaymentFilter = 
             paymentFilter === "all" ? true :
             paymentFilter === "due" ? supplier.paymentDue > 0 :
@@ -96,7 +99,8 @@ const Suppliers = () => {
                             <Download className="w-4 h-4 mr-2" />
                             Export
                         </button>
-                        <button className="inline-flex items-center px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm">
+                        <button
+                            className="inline-flex items-center px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-sm">
                             <Settings className="w-4 h-4 mr-2" />
                             Settings
                         </button>

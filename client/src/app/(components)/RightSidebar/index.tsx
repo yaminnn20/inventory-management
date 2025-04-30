@@ -30,7 +30,7 @@ const RightSidebar = ({ isOpen, onClose }: RightSidebarProps) => {
           <div>
             <h3 className="text-lg font-medium mb-2">Quick Setup Guide</h3>
             <p className="text-gray-600">
-              Let's get your inventory management system up and running in just a few steps.
+              Let&apos;s get your inventory management system up and running in just a few steps.
             </p>
           </div>
 

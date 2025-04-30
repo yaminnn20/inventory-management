@@ -1,26 +1,22 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Header from "@/app/(components)/Header";
-
-type SupplierFormData = {
-  supplierId: string;
-  name: string;
-  totalPayment: number;
-  paymentDue: number;
-};
+import { NewSupplier } from "@/state/api";
 
 type CreateSupplierModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  onCreate: (formData: SupplierFormData) => void;
+  onCreate: (formData: NewSupplier) => void;
 };
 
 const CreateSupplierModal = ({ isOpen, onClose, onCreate }: CreateSupplierModalProps) => {
-  const [formData, setFormData] = useState<SupplierFormData>({
-    supplierId: uuidv4(),
+  const [formData, setFormData] = useState<NewSupplier>({
     name: "",
     totalPayment: 0,
     paymentDue: 0,
+    phone: "",
+    email: "",
+    address: ""
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +50,39 @@ const CreateSupplierModal = ({ isOpen, onClose, onCreate }: CreateSupplierModalP
             value={formData.name}
             className="block w-full mb-2 p-2 border-gray-500 border-2 rounded-md"
             required
+          />
+
+          {/* Phone */}
+          <label className="block text-sm font-medium text-gray-700">Phone</label>
+          <input
+            type="text"
+            name="phone"
+            placeholder="Phone"
+            onChange={handleChange}
+            value={formData.phone}
+            className="block w-full mb-2 p-2 border-gray-500 border-2 rounded-md"
+          />
+
+          {/* Email */}
+          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
+            value={formData.email}
+            className="block w-full mb-2 p-2 border-gray-500 border-2 rounded-md"
+          />
+
+          {/* Address */}
+          <label className="block text-sm font-medium text-gray-700">Address</label>
+          <input
+            type="text"
+            name="address"
+            placeholder="Address"
+            onChange={handleChange}
+            value={formData.address}
+            className="block w-full mb-2 p-2 border-gray-500 border-2 rounded-md"
           />
 
           {/* Total Payment */}

@@ -5,7 +5,7 @@ import { useGetUsersQuery } from "@/state/api";
 import Header from "@/app/(components)/Header";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { 
-  User, 
+  User as UserIcon, 
   Mail, 
   Search, 
   Users as UsersIcon, 
@@ -26,6 +26,19 @@ import {
   AlertCircle
 } from "lucide-react";
 
+interface User {
+  userId: string;
+  name: string;
+  email: string;
+  role?: 'admin' | 'user';
+  status?: 'active' | 'inactive';
+  phone?: string;
+  address?: string;
+  lastActivity?: string;
+  totalPurchases?: number;
+  totalSpent?: number;
+}
+
 // Mock data for customer activities
 const mockActivities = [
   { id: 1, userId: 1, type: 'purchase', description: 'Purchased Product A', date: '2023-04-10', status: 'completed' },
@@ -37,38 +50,12 @@ const mockActivities = [
 
 const columns: GridColDef[] = [
   { field: "userId", headerName: "ID", width: 90 },
-  { field: "name", headerName: "Name", width: 200 },
+  { field: "name", headerName: "Name", width: 130 },
   { field: "email", headerName: "Email", width: 200 },
-  { 
-    field: "role", 
-    headerName: "Role", 
-    width: 130,
-    renderCell: (params) => (
-      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-        params.value === 'admin' 
-          ? 'bg-purple-100 text-purple-800' 
-          : 'bg-blue-100 text-blue-800'
-      }`}>
-        {params.value || 'User'}
-      </span>
-    )
-  },
-  { 
-    field: "status", 
-    headerName: "Status", 
-    width: 130,
-    renderCell: (params) => (
-      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-        params.value === 'active' 
-          ? 'bg-green-100 text-green-800' 
-          : params.value === 'inactive'
-          ? 'bg-gray-100 text-gray-800'
-          : 'bg-red-100 text-red-800'
-      }`}>
-        {params.value || 'active'}
-      </span>
-    )
-  },
+  { field: "role", headerName: "Role", width: 100 },
+  { field: "status", headerName: "Status", width: 100 },
+  { field: "phone", headerName: "Phone", width: 130 },
+  { field: "address", headerName: "Address", width: 200 },
 ];
 
 const Users = () => {
@@ -83,9 +70,12 @@ const Users = () => {
   const usersWithStatus = users?.map(user => ({
     ...user,
     status: Math.random() > 0.7 ? 'inactive' : 'active',
+    role: Math.random() > 0.8 ? 'admin' : 'user',
     lastActivity: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toISOString(),
     totalPurchases: Math.floor(Math.random() * 10),
     totalSpent: Math.floor(Math.random() * 1000) + 100,
+    phone: Math.random() > 0.5 ? '+1 234 567 8900' : undefined,
+    address: Math.random() > 0.5 ? '123 Main St, City, Country' : undefined
   })) || [];
 
   // Filter users based on search term and filters
@@ -248,7 +238,7 @@ const Users = () => {
                 className={`p-2 rounded-lg ${viewMode === 'cards' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-600'}`}
                 onClick={() => setViewMode('cards')}
               >
-                <User className="w-5 h-5" />
+                <UserIcon className="w-5 h-5" />
               </button>
             </div>
           </div>
@@ -310,14 +300,18 @@ const Users = () => {
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
             <h3 className="text-lg font-semibold mb-4">Customers</h3>
             {viewMode === 'cards' ? (
-      <DataGrid
+              <DataGrid
                 rows={filteredUsers}
-        columns={columns}
-        getRowId={(row) => row.userId}
+                columns={columns}
+                getRowId={(row) => row.userId}
                 autoHeight
-                pageSize={10}
-                rowsPerPageOptions={[10]}
-                disableSelectionOnClick
+                initialState={{
+                  pagination: {
+                    paginationModel: { pageSize: 10, page: 0 },
+                  },
+                }}
+                pageSizeOptions={[10]}
+                disableRowSelectionOnClick
                 className="rounded-lg"
               />
             ) : (
@@ -334,7 +328,7 @@ const Users = () => {
                             ? 'bg-purple-100' 
                             : 'bg-blue-100'
                         }`}>
-                          <User className={`w-5 h-5 ${
+                          <UserIcon className={`w-5 h-5 ${
                             user.role === 'admin' 
                               ? 'text-purple-600' 
                               : 'text-blue-600'
@@ -378,13 +372,12 @@ const Users = () => {
                     <div className="mt-3 pt-3 border-t border-gray-100">
                       <div className="flex justify-between items-center">
                         <div>
-                          <p className="text-sm text-gray-500">Purchases</p>
-                          <p className="text-lg font-semibold text-gray-900">{user.totalPurchases}</p>
+                          <p className="text-xs text-gray-500">Total Purchases</p>
+                          <p className="text-base font-semibold text-gray-900">${user.totalPurchases || 0}</p>
                         </div>
-                        <div className="text-right">
-                          <p className="text-sm text-gray-500">Total Spent</p>
-                          <p className="text-lg font-semibold text-green-600">${user.totalSpent.toLocaleString()}</p>
-                        </div>
+                        <button className="p-2 hover:bg-gray-100 rounded-full">
+                          <MoreVertical className="w-5 h-5 text-gray-500" />
+                        </button>
                       </div>
                     </div>
                   </div>
