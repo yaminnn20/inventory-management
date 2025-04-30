@@ -30,34 +30,34 @@ const StatCard = ({
     value >= 0 ? "text-green-500" : "text-red-500";
 
   return (
-    <div className="md:row-span-1 xl:row-span-2 bg-white col-span-1 shadow-md rounded-2xl flex flex-col justify-between">
+    <div className="bg-white shadow-lg rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300">
       {/* HEADER */}
-      <div>
-        <div className="flex justify-between items-center mb-2 px-5 pt-4">
-          <h2 className="font-semibold text-lg text-gray-700">{title}</h2>
-          <span className="text-xs text-gray-400">{dateRange}</span>
+      <div className="p-5 border-b border-gray-100">
+        <div className="flex justify-between items-center">
+          <h2 className="font-semibold text-lg text-gray-800">{title}</h2>
+          <span className="text-xs text-gray-400 bg-gray-50 px-2 py-1 rounded-full">{dateRange}</span>
         </div>
-        <hr />
       </div>
 
       {/* BODY */}
-      <div className="flex mb-6 items-center justify-around gap-4 px-5">
-        <div className="rounded-full p-5 bg-blue-50 border-sky-300 border-[1px]">
+      <div className="p-5">
+        <div className="flex items-center gap-4 mb-6">
+          <div className="rounded-full p-4 bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-600 shadow-sm">
           {primaryIcon}
         </div>
         <div className="flex-1">
           {details.map((detail, index) => (
             <React.Fragment key={index}>
-              <div className="flex items-center justify-between my-4">
-                <span className="text-gray-500">{detail.title}</span>
+                <div className="flex items-center justify-between py-3">
+                  <span className="text-gray-500 text-sm">{detail.title}</span>
+                  <div className="flex items-center gap-3">
                 <span className="font-bold text-gray-800">{detail.amount}</span>
-                <div className="flex items-center">
+                    <div className={`flex items-center px-2 py-1 rounded-full text-xs ${getChangeColor(detail.changePercentage) === 'text-green-500' ? 'bg-green-50' : 'bg-red-50'}`}>
                   <detail.IconComponent
-                    className={`w-4 h-4 mr-1 ${getChangeColor(
+                        className={`w-3 h-3 mr-1 ${getChangeColor(
                       detail.changePercentage
                     )}`}
                   />
-
                   <span
                     className={`font-medium ${getChangeColor(
                       detail.changePercentage
@@ -67,9 +67,11 @@ const StatCard = ({
                   </span>
                 </div>
               </div>
-              {index < details.length - 1 && <hr />}
+                </div>
+                {index < details.length - 1 && <div className="border-b border-gray-100 my-1"></div>}
             </React.Fragment>
           ))}
+          </div>
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ body,
   @apply text-sm;
   @apply bg-gray-500;
   @apply text-gray-900;
+  font-family: var(--font-poppins), sans-serif;
 }
 
 @media (min-width: 768px) {

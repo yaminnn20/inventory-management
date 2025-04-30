@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "@/app/(components)/Navbar";
 import Sidebar from "@/app/(components)/Sidebar";
+import SurveyDialog from "@/app/(components)/SurveyDialog";
+import RightSidebar from "@/app/(components)/RightSidebar";
+import GetStartedButton from "@/app/(components)/GetStartedButton";
 import StoreProvider, { useAppSelector } from "./redux";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
@@ -10,6 +13,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     (state) => state.global.isSidebarCollapsed
   );
   const isDarkMode = useAppSelector((state) => state.global.isDarkMode);
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -34,6 +38,12 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         <Navbar />
         {children}
       </main>
+      <GetStartedButton onClick={() => setIsRightSidebarOpen(true)} />
+      <RightSidebar 
+        isOpen={isRightSidebarOpen} 
+        onClose={() => setIsRightSidebarOpen(false)} 
+      />
+      <SurveyDialog />
     </div>
   );
 };
