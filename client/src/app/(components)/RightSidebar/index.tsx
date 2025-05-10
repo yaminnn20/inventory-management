@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X } from "lucide-react";
 
 interface RightSidebarProps {
@@ -9,10 +9,28 @@ interface RightSidebarProps {
 }
 
 const RightSidebar = ({ isOpen, onClose }: RightSidebarProps) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isOpen) {
+      timer = setTimeout(() => {
+        setIsVisible(true);
+      }, 200); // 0.5 second delay
+    } else {
+      setIsVisible(false);
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [isOpen]);
+
   return (
     <div
-      className={`fixed top-2 right-2 h-full w-80 bg-white rounded-md shadow-lg transform transition-transform duration-300 ease-in-out ${
-        isOpen ? "translate-x-0" : "translate-x-full"
+      className={`fixed top-2 right-2 h-full w-80 bg-white rounded-md shadow-lg transform transition-all duration-300 ease-in-out ${
+        isVisible ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
       }`}
     >
       <div className="p-6">
@@ -30,7 +48,7 @@ const RightSidebar = ({ isOpen, onClose }: RightSidebarProps) => {
           <div>
             <h3 className="text-lg font-medium mb-2">Quick Setup Guide</h3>
             <p className="text-gray-600">
-              Let&apos;s get your inventory management system up and running in just a few steps.
+              Let&apos;s get your business management system up and running in just a few steps.
             </p>
           </div>
 

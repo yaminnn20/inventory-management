@@ -182,23 +182,23 @@ const AccountingDashboard = () => {
   }
 
   return (
-    <div className="mx-auto pb-5 w-full">
+    <div className="p-4 sm:p-6">
       {/* Header Section */}
-      <div className="flex justify-between items-center mb-6">
-    <div>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 sm:gap-0 mb-6">
+        <div>
           <Header name="Financial Dashboard" />
           <p className="text-sm text-gray-500 mt-1">
             Comprehensive view of your financial performance
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2">
           <button
-            className="flex items-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200"
+            className="flex items-center justify-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 w-full sm:w-auto"
           >
             <PlusCircle className="w-5 h-5 mr-2" /> New Transaction
           </button>
           <button
-            className="flex items-center bg-white hover:bg-gray-50 text-gray-700 font-bold py-2 px-4 rounded-lg transition-colors duration-200 border border-gray-200"
+            className="flex items-center justify-center bg-white hover:bg-gray-50 text-gray-700 font-bold py-2 px-4 rounded-lg transition-colors duration-200 border border-gray-200 w-full sm:w-auto"
           >
             <Download className="w-5 h-5 mr-2" /> Export Reports
           </button>
@@ -206,18 +206,18 @@ const AccountingDashboard = () => {
       </div>
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-500">Total Revenue</p>
-              <h3 className="text-2xl font-bold text-green-600 mt-1">${totalRevenue.toLocaleString()}</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-green-600 mt-1">${totalRevenue.toLocaleString()}</h3>
               <p className="text-xs text-gray-500 mt-1">
                 Last 6 months
               </p>
             </div>
-            <div className="bg-green-100 p-3 rounded-lg">
-              <DollarSign className="w-6 h-6 text-green-600" />
+            <div className="bg-green-100 p-2 sm:p-3 rounded-lg">
+              <DollarSign className="w-5 h-5 sm:w-6 sm:h-6 text-green-600" />
             </div>
           </div>
         </div>
@@ -225,13 +225,13 @@ const AccountingDashboard = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-500">Net Income</p>
-              <h3 className="text-2xl font-bold text-blue-600 mt-1">${netIncome.toLocaleString()}</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-blue-600 mt-1">${netIncome.toLocaleString()}</h3>
               <p className="text-xs text-gray-500 mt-1">
                 {((netIncome / totalRevenue) * 100).toFixed(1)}% margin
               </p>
             </div>
-            <div className="bg-blue-100 p-3 rounded-lg">
-              <TrendingUp className="w-6 h-6 text-blue-600" />
+            <div className="bg-blue-100 p-2 sm:p-3 rounded-lg">
+              <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
             </div>
           </div>
         </div>
@@ -239,13 +239,13 @@ const AccountingDashboard = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-500">Current Ratio</p>
-              <h3 className="text-2xl font-bold text-purple-600 mt-1">{currentRatio}</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-purple-600 mt-1">{currentRatio}</h3>
               <p className="text-xs text-gray-500 mt-1">
                 Assets to Liabilities
               </p>
             </div>
-            <div className="bg-purple-100 p-3 rounded-lg">
-              <RefreshCw className="w-6 h-6 text-purple-600" />
+            <div className="bg-purple-100 p-2 sm:p-3 rounded-lg">
+              <RefreshCw className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600" />
             </div>
           </div>
         </div>
@@ -253,23 +253,23 @@ const AccountingDashboard = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-500">Debt to Equity</p>
-              <h3 className="text-2xl font-bold text-amber-600 mt-1">{debtToEquityRatio}</h3>
+              <h3 className="text-xl sm:text-2xl font-bold text-amber-600 mt-1">{debtToEquityRatio}</h3>
               <p className="text-xs text-gray-500 mt-1">
                 Financial Leverage
               </p>
             </div>
-            <div className="bg-amber-100 p-3 rounded-lg">
-              <Scale className="w-6 h-6 text-amber-600" />
+            <div className="bg-amber-100 p-2 sm:p-3 rounded-lg">
+              <Scale className="w-5 h-5 sm:w-6 sm:h-6 text-amber-600" />
             </div>
           </div>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
-        <div className="flex flex-wrap gap-4">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6 overflow-x-auto">
+        <div className="flex gap-2 sm:gap-4 min-w-max">
           <button
-            className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
+            className={`px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors duration-200 whitespace-nowrap ${
               activeTab === 'overview' 
                 ? 'bg-blue-100 text-blue-800' 
                 : 'text-gray-600 hover:bg-gray-100'
@@ -279,7 +279,7 @@ const AccountingDashboard = () => {
             Overview
           </button>
           <button
-            className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
+            className={`px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors duration-200 whitespace-nowrap ${
               activeTab === 'balance-sheet' 
                 ? 'bg-blue-100 text-blue-800' 
                 : 'text-gray-600 hover:bg-gray-100'
@@ -289,7 +289,7 @@ const AccountingDashboard = () => {
             Balance Sheet
           </button>
           <button
-            className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
+            className={`px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors duration-200 whitespace-nowrap ${
               activeTab === 'profit-loss' 
                 ? 'bg-blue-100 text-blue-800' 
                 : 'text-gray-600 hover:bg-gray-100'
@@ -299,7 +299,7 @@ const AccountingDashboard = () => {
             Profit & Loss
           </button>
           <button
-            className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
+            className={`px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors duration-200 whitespace-nowrap ${
               activeTab === 'expenses' 
                 ? 'bg-blue-100 text-blue-800' 
                 : 'text-gray-600 hover:bg-gray-100'
@@ -309,7 +309,7 @@ const AccountingDashboard = () => {
             Expenses
           </button>
           <button
-            className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
+            className={`px-3 sm:px-4 py-2 rounded-lg font-medium transition-colors duration-200 whitespace-nowrap ${
               activeTab === 'cash-flow' 
                 ? 'bg-blue-100 text-blue-800' 
                 : 'text-gray-600 hover:bg-gray-100'
@@ -322,15 +322,15 @@ const AccountingDashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
         {/* Main Content Area */}
         <div className={`${activeTab === 'overview' ? 'lg:col-span-2' : 'lg:col-span-3'}`}>
           {activeTab === 'overview' && (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6">
               {/* Revenue vs Expenses Chart */}
               <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-                <h3 className="text-lg font-semibold mb-4">Revenue vs Expenses</h3>
-                <div className="h-80">
+                <h3 className="text-base sm:text-lg font-semibold mb-4">Revenue vs Expenses</h3>
+                <div className="h-64 sm:h-80">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={mockProfitLoss.revenue.map((item, index) => ({
                       month: item.month,
@@ -350,40 +350,40 @@ const AccountingDashboard = () => {
               </div>
 
               {/* Financial Ratios */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-                  <h3 className="text-lg font-semibold mb-4">Key Financial Ratios</h3>
-                  <div className="space-y-4">
+                  <h3 className="text-base sm:text-lg font-semibold mb-4">Key Financial Ratios</h3>
+                  <div className="space-y-3 sm:space-y-4">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Current Ratio</span>
+                      <span className="text-sm sm:text-base text-gray-600">Current Ratio</span>
                       <span className="font-semibold">{currentRatio}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Debt to Equity</span>
+                      <span className="text-sm sm:text-base text-gray-600">Debt to Equity</span>
                       <span className="font-semibold">{debtToEquityRatio}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Profit Margin</span>
+                      <span className="text-sm sm:text-base text-gray-600">Profit Margin</span>
                       <span className="font-semibold">{((netIncome / totalRevenue) * 100).toFixed(1)}%</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Asset Turnover</span>
+                      <span className="text-sm sm:text-base text-gray-600">Asset Turnover</span>
                       <span className="font-semibold">{(totalRevenue / totalAssets).toFixed(2)}</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-                  <h3 className="text-lg font-semibold mb-4">Recent Transactions</h3>
-                  <div className="space-y-4">
+                  <h3 className="text-base sm:text-lg font-semibold mb-4">Recent Transactions</h3>
+                  <div className="space-y-3 sm:space-y-4">
                     {mockExpenses.slice(0, 5).map((expense) => (
                       <div key={expense.id} className="flex justify-between items-center">
                         <div>
-                          <span className="font-medium">{expense.category}</span>
-                          <p className="text-sm text-gray-500">{new Date(expense.date).toLocaleDateString()}</p>
+                          <span className="text-sm sm:text-base font-medium">{expense.category}</span>
+                          <p className="text-xs sm:text-sm text-gray-500">{new Date(expense.date).toLocaleDateString()}</p>
                         </div>
                         <div className="text-right">
-                          <span className="font-semibold">${expense.amount.toLocaleString()}</span>
+                          <span className="text-sm sm:text-base font-semibold">${expense.amount.toLocaleString()}</span>
                           <span className={`ml-2 px-2 py-1 rounded-full text-xs ${
                             expense.status === 'paid' 
                               ? 'bg-green-100 text-green-800' 
@@ -634,40 +634,40 @@ const AccountingDashboard = () => {
         {activeTab === 'overview' && (
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-              <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-4">Quick Actions</h3>
               <div className="space-y-2">
                 <button className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200">
                   <div className="flex items-center">
-                    <Receipt className="w-5 h-5 text-blue-600 mr-3" />
-                    <span>Record Income</span>
+                    <Receipt className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 mr-3" />
+                    <span className="text-sm sm:text-base">Record Income</span>
                   </div>
                   <ChevronDown className="w-4 h-4 text-gray-400" />
                 </button>
                 <button className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200">
                   <div className="flex items-center">
-                    <CreditCard className="w-5 h-5 text-red-600 mr-3" />
-                    <span>Record Expense</span>
+                    <CreditCard className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 mr-3" />
+                    <span className="text-sm sm:text-base">Record Expense</span>
                   </div>
                   <ChevronDown className="w-4 h-4 text-gray-400" />
                 </button>
                 <button className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200">
                   <div className="flex items-center">
-                    <Wallet className="w-5 h-5 text-green-600 mr-3" />
-                    <span>Bank Reconciliation</span>
+                    <Wallet className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 mr-3" />
+                    <span className="text-sm sm:text-base">Bank Reconciliation</span>
                   </div>
                   <ChevronDown className="w-4 h-4 text-gray-400" />
                 </button>
                 <button className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200">
                   <div className="flex items-center">
-                    <FileText className="w-5 h-5 text-purple-600 mr-3" />
-                    <span>Generate Reports</span>
+                    <FileText className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 mr-3" />
+                    <span className="text-sm sm:text-base">Generate Reports</span>
                   </div>
                   <ChevronDown className="w-4 h-4 text-gray-400" />
                 </button>
                 <button className="w-full flex items-center justify-between p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200">
                   <div className="flex items-center">
-                    <Settings className="w-5 h-5 text-gray-600 mr-3" />
-                    <span>Accounting Settings</span>
+                    <Settings className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 mr-3" />
+                    <span className="text-sm sm:text-base">Accounting Settings</span>
                   </div>
                   <ChevronDown className="w-4 h-4 text-gray-400" />
                 </button>

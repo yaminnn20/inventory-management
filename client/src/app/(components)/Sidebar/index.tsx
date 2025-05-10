@@ -9,6 +9,7 @@ import {
   Check,
   CircleDollarSign,
   Clipboard,
+  ChevronRight,
   FileBarChartIcon,
   FilePieChart,
   Layout,
@@ -108,11 +109,11 @@ const Sidebar = () => {
       {/* Mobile Menu Button - Only visible when sidebar is closed */}
       {isMobile && !isMobileMenuOpen && (
         <button
-          className="fixed top-4 z-50 p-2 bg-white rounded-lg shadow-md hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+          className="fixed top-12 z-50 p-1 bg-white border-2 border-gray-200 rounded-lg shadow-md hover:bg-gray-50 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
           onClick={toggleSidebar}
           aria-label="Toggle menu"
         >
-          <Menu className="w-5 h-5 text-gray-600" />
+          <ChevronRight className="w-5 h-5 text-gray-600" />
         </button>
       )}
 
@@ -144,7 +145,7 @@ const Sidebar = () => {
               onClick={closeMobileMenu}
               aria-label="Close menu"
             >
-              <X className="w-4 h-4 text-gray-600" />
+              <X className="w-5 h-5 text-gray-600" />
             </button>
           )}
         </div>

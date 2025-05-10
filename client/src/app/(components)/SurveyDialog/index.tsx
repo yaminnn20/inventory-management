@@ -5,14 +5,34 @@ import { X } from "lucide-react";
 
 const SurveyDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [shouldReappear, setShouldReappear] = useState(false);
 
+  // Initial timer to show the dialog
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const initialTimer = setTimeout(() => {
       setIsOpen(true);
-    }, 0.2 * 60 * 1000); // 4 minutes in milliseconds
+    }, 0.2 * 60 * 1000); // 2 minutes in milliseconds
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(initialTimer);
   }, []);
+
+  // Timer to show the dialog again after clicking "Maybe Later"
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    
+    if (!isOpen && shouldReappear) {
+      timer = setTimeout(() => {
+        setIsOpen(true);
+        setShouldReappear(false);
+      }, 0.5 * 60 * 1000); // 2 minutes in milliseconds
+    }
+
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [isOpen, shouldReappear]);
 
   if (!isOpen) return null;
 
@@ -45,7 +65,10 @@ const SurveyDialog = () => {
               Take Survey
             </button>
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={() => {
+                setIsOpen(false);
+                setShouldReappear(true);
+              }}
               className="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition-colors"
             >
               Maybe Later

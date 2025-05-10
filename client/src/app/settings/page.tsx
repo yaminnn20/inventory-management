@@ -18,6 +18,7 @@ import {
   Zap,
   Lock,
   Palette,
+  ChevronDown,
 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsDarkMode } from "@/state";
@@ -415,10 +416,16 @@ const SettingsPage = () => {
         <div className="md:hidden p-4">
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
+            className="flex items-center justify-between w-full p-3 bg-white rounded-lg shadow-sm border border-gray-200 hover:bg-gray-50 transition-colors"
           >
-            <Settings size={24} />
-            <span>Settings Menu</span>
+            <div className="flex items-center space-x-2 text-gray-600">
+              <Settings size={24} />
+              <span className="font-medium">Settings Menu</span>
+            </div>
+            <ChevronDown 
+              size={20} 
+              className={`text-gray-500 transition-transform duration-200 ${isSidebarOpen ? 'rotate-180' : ''}`}
+            />
           </button>
         </div>
 

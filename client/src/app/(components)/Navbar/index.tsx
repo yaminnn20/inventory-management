@@ -6,7 +6,7 @@ import { setIsDarkMode } from "@/state";
 import {
   Bell,
   BotMessageSquare,
-  BrainCog,
+  Sparkles,
   Moon,
   Search,
   Settings,
@@ -95,7 +95,7 @@ const Navbar = () => {
   const notificationRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setIframeSrc("https://deepgrovee-main.vercel.app");
+    setIframeSrc("https://ai.reorbe.com");
 
     const checkIsMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -212,7 +212,9 @@ const Navbar = () => {
     }
   };
 
-  const closeChat = () => setIsChatVisible(false);
+  const closeChat = () => {
+    setIsChatVisible(false);
+  };
 
   const getNotificationIcon = (type: Notification['type']) => {
     switch (type) {
@@ -323,9 +325,9 @@ const Navbar = () => {
           {/* Chat Button */}
           <button
             onClick={toggleChat}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-teal-500 text-white hover:bg-teal-600 transition-colors duration-200"
-          >
-            <BrainCog size={16} />
+            className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gradient-to-r from-teal-500 to-emerald-500   text-white hover:from-teal-600 hover:to-emerald-600 transition-colors duration-200 border-2 border-emerald-200"
+>
+            <Sparkles size={18} />
             <span className="font-medium text-sm">Orbe AI</span>
             {isChatOpen && (
               <span className="w-2 h-2 bg-gray-100 rounded-full animate-pulse" />
@@ -409,7 +411,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* CHAT WINDOW (Both Desktop and Mobile) */}
+      {/* Chat iframe - Modified to stay mounted */}
       <div
         className={`fixed bg-white shadow-xl transition-all duration-300 z-50 ${
           isChatVisible ? "opacity-100 pointer-events-auto visible" : "opacity-0 pointer-events-none invisible"
@@ -419,36 +421,33 @@ const Navbar = () => {
             : "top-20 right-4 w-[90vw] md:w-[700px] h-[80vh] md:h-[500px] rounded-xl"
         }`}
       >
-        {/* Header */}
-        <div className="flex justify-between items-center p-3 border-b border-gray-200">
-          <h3 className="font-medium text-gray-700">AI Assistant</h3>
+        {/* Header - Simplified to only show close button */}
+        <div className="absolute top-0 right-0 p-0 z-10">
           <button
             onClick={closeChat}
             className="text-gray-500 hover:text-gray-700 p-1 rounded-full hover:bg-gray-100"
             aria-label="Close chat"
           >
-            <X size={20} />
+            <X size={13} />
           </button>
         </div>
 
-        {/* Iframe */}
-        <div className="w-full h-[calc(100%-48px)]">
-          {isChatVisible && (
-            <iframe
-              ref={iframeRef}
-              key={isMobile ? 'mobile' : 'desktop'}
-              src={iframeSrc}
-              allow="microphone; camera; autoplay"
-              sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads allow-modals allow-microphone"
-              loading="lazy"
-              className="w-full h-full border-none"
-              style={{
-                touchAction: "manipulation",
-                WebkitOverflowScrolling: "touch",
-                pointerEvents: "auto",
-              }}
-            />
-          )}
+        {/* Iframe - Always mounted but visibility controlled by parent */}
+        <div className="w-full h-full">
+          <iframe
+            ref={iframeRef}
+            key={isMobile ? 'mobile' : 'desktop'}
+            src={iframeSrc}
+            allow="microphone; camera; autoplay"
+            sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads allow-modals allow-microphone"
+            loading="lazy"
+            className="w-full h-full border-none rounded-xl"
+            style={{
+              touchAction: "manipulation",
+              WebkitOverflowScrolling: "touch",
+              pointerEvents: "auto",
+            }}
+          />
         </div>
       </div>
     </>
