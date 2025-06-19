@@ -57,7 +57,7 @@ const SurveyDialog = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => {
-                window.open("https://example.com/survey", "_blank");
+                window.open("https://reorbe.com", "_blank");
                 setIsOpen(false);
               }}
               className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
