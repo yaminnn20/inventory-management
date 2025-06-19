@@ -11,7 +11,7 @@ const SurveyDialog = () => {
   useEffect(() => {
     const initialTimer = setTimeout(() => {
       setIsOpen(true);
-    }, 0.2 * 60 * 1000); // 2 minutes in milliseconds
+    }, 2 * 60 * 1000); // 2 minutes in milliseconds
 
     return () => clearTimeout(initialTimer);
   }, []);
@@ -24,7 +24,7 @@ const SurveyDialog = () => {
       timer = setTimeout(() => {
         setIsOpen(true);
         setShouldReappear(false);
-      }, 0.5 * 60 * 1000); // 2 minutes in milliseconds
+      }, 2 * 60 * 1000); // 2 minutes in milliseconds
     }
 
     return () => {
